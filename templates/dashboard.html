@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 400;
+            color: white; 
+            margin-bottom: 30px;
+        }
+
+        .table {
+            width: 80%;
+            margin-top: 30px;
+            border: 2px solid rgb(0, 255, 255); 
+            color: white; 
+        }
+
+        .table th, .table td {
+            border: 2px solid rgb(0, 255, 255); 
+            padding: 15px;
+            transition: border 0.3s ease;
+            color: white; 
+        }
+
+        .table th {
+            background-color: rgba(0, 255, 255, 0.1);
+        }
+
+        .table td {
+            background-color: rgba(0, 255, 255, 0.05);
+        }
+
+        .table tbody tr:hover td {
+            animation: waveEffect 2s linear infinite;
+        }
+
+        .btn {
+            background-color: rgb(0, 255, 255);
+            border: 2px solid rgb(0, 255, 255);
+            padding: 5px 10px;
+            font-size: 0.85rem;
+            border-radius: 30px;
+            color: white; 
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-sm {
+            padding: 5px 10px;  /* Tamaño más pequeño */
+            font-size: 0.85rem;
+        }
+
+        .btn:hover {
+            background-color: rgb(0, 255, 255);
+            color: white;
+            border-color: rgb(0, 255, 255);
+        }
+
+        @keyframes waveEffect {
+            0% {
+                border-color: rgb(0, 255, 255);
+            }
+            50% {
+                border-color: rgb(255, 0, 150);
+            }
+            100% {
+                border-color: rgb(255, 255, 0);
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <h2>Lista de Portátiles Disponibles</h2>
+    <table class="table table-bordered mt-4">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Marca</th>
+                <th>Estado</th>
+                <th>Almacenamiento</th>
+                <th>Sistema Operativo</th>
+                <th>RAM</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for portatil in portatiles %}
+            <tr>
+                <td>{{ portatil[0] }}</td>
+                <td>{{ portatil[1] }}</td>
+                <td>{{ portatil[2] }}</td>
+                <td>{{ portatil[3] }}</td>
+                <td>{{ portatil[5] }}</td> <!-- Aquí usamos el índice para RAM (asumido que es el índice 5) -->
+                <td>{{ portatil[4] }}</td>
+                <td class="text-center">
+                    <a href="{{ url_for('alquilar', portatil_id=portatil[0]) }}#mis-reservas" class="btn btn-sm btn-success">Alquilar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Mis Reservas -->
+    <h2 class="mt-5" id="mis-reservas">Mis Reservas</h2>
+    <table class="table table-bordered mt-4">
+        <thead>
+            <tr>
+                <th>ID Portátil</th>
+                <th>Marca</th>
+                <th>Fecha de Reserva</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reserva in reservas %}
+            <tr>
+                <td>{{ reserva[0] }}</td>
+                <td>{{ reserva[1] }}</td>
+                <td>{{ reserva[2].strftime('%d/%m/%Y') }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('logout') }}" class="btn">Cerrar sesión</a>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
