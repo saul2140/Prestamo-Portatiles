@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:5.7
+    container_name: prestamoportatiles_db  
+    environment:
+      MYSQL_ROOT_PASSWORD: usuario
+      MYSQL_DATABASE: gr2_db
+      MYSQL_USER: user_gr2
+      MYSQL_PASSWORD: portatil123
+    ports:
+      - "33060:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  app:
+    build: .
+    container_name: prestamoportatiles
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "5000:5000"
+    environment:
+      MYSQL_HOST: db10.3.29.20
+      MYSQL_USER: user_gr2
+      MYSQL_PASSWORD: portatil123
+      MYSQL_DB: gr2_db
+
+volumes:
+  mysql_data:
